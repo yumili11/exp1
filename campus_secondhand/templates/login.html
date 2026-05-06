@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}登录{% endblock %}
+
+{% block content %}
+<div class="login-panel">
+    <h2>系统登录</h2>
+    <div class="sub">请输入账号密码进入校园二手交易平台数据库系统</div>
+
+    <form method="post">
+        <input type="text" name="user_id" placeholder="请输入用户ID，如 u001" required>
+        <input type="password" name="password" placeholder="请输入密码" required>
+        <button class="btn" type="submit" style="width:100%;">登录</button>
+    </form>
+
+    <div class="account-box">
+        <strong>演示账号：</strong><br>
+        管理员：u001 / 123456<br>
+        普通用户：u002 / 123456<br>
+        普通用户：u003 / 123456<br>
+        普通用户：u004 / 123456
+    </div>
+</div>
+{% endblock %}

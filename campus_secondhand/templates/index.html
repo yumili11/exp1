@@ -1,12 +1,58 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
+
+{% block title %}首页{% endblock %}
 
 {% block content %}
-<h2>系统首页</h2>
-<p>欢迎使用校园二手交易平台数据库系统。</p>
-<ul>
-    <li>查看数据库中的用户、商品、订单信息</li>
-    <li>支持商品新增、修改价格、删除未售出商品</li>
-    <li>支持基本查询、连接查询、聚合统计、视图展示</li>
-    <li>支持“购买商品”事务操作</li>
-</ul>
+<h1 class="page-title">主界面</h1>
+<p class="page-subtitle">校园二手交易平台数据库系统功能导航</p>
+
+<div class="card-grid">
+    <div class="card">
+        <h3>商品管理</h3>
+        <p>浏览平台商品，支持高级筛选；管理员可新增、改价、删除，普通用户可购买未售出商品。</p>
+        <a class="btn" href="{{ url_for('items') }}">进入功能</a>
+    </div>
+
+    <div class="card">
+        <h3>用户信息</h3>
+        <p>查看平台用户资料。管理员可访问，普通用户访问会收到无权限提示。</p>
+        <a class="btn" href="{{ url_for('users') }}">进入功能</a>
+    </div>
+
+    <div class="card">
+        <h3>订单记录</h3>
+        <p>查看订单记录。管理员查看全部订单，普通用户查看自己的订单。</p>
+        <a class="btn" href="{{ url_for('orders') }}">进入功能</a>
+    </div>
+
+    <div class="card">
+        <h3>数据查询</h3>
+        <p>展示基本查询与连接查询结果，包括未售商品、价格大于30商品、u001发布商品等。</p>
+        <a class="btn" href="{{ url_for('queries') }}">进入功能</a>
+    </div>
+
+    <div class="card">
+        <h3>统计分析</h3>
+        <p>统计商品总数、每类商品数量、平均价格以及发布商品最多的用户。</p>
+        <a class="btn" href="{{ url_for('stats') }}">进入功能</a>
+    </div>
+
+    <div class="card">
+        <h3>视图展示</h3>
+        <p>展示已售商品视图和未售商品视图，满足数据库视图功能要求。</p>
+        <a class="btn" href="{{ url_for('views_page') }}">进入功能</a>
+    </div>
+
+    <div class="card">
+        <h3>安全说明</h3>
+        <p>说明如何防止普通用户删除数据，以及如何限制普通用户只能进行查询和购买。</p>
+        <a class="btn" href="{{ url_for('security') }}">进入功能</a>
+    </div>
+
+    <div class="card">
+        <h3>并发与恢复</h3>
+        <p>说明两个用户同时购买同一商品的问题、解决思路，以及系统崩溃后的恢复方式。</p>
+        <a class="btn" href="{{ url_for('concurrency') }}">进入功能</a>
+    </div>
+</div>
 {% endblock %}

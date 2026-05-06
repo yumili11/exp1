@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}并发与恢复{% endblock %}
+
+{% block content %}
+<h1 class="page-title">并发与恢复说明</h1>
+<p class="page-subtitle">并发购买问题、解决思路与系统恢复方式</p>
+
+<div class="panel">
+    <h3 style="color:#1565c0; margin-bottom:12px;">1. 两个用户同时购买同一商品会出现什么问题</h3>
+    <p style="line-height:1.9; color:#607080;">
+        如果两个用户几乎同时购买同一件未售商品，可能都先查询到该商品状态为“未售出”，
+        然后分别尝试插入订单。若没有并发控制，就可能产生重复购买问题，破坏“一个商品最多只能交易一次”的约束。
+    </p>
+</div>
+
+<div class="panel">
+    <h3 style="color:#1565c0; margin-bottom:12px;">2. 如何解决</h3>
+    <p style="line-height:1.9; color:#607080;">
+        系统通过事务和约束来解决。购买商品时，先开启事务，再检查商品状态和订单是否已存在，
+        然后插入 orders 表并更新 item.status = 1，最后统一提交。
+        同时 orders.item_id 设置 UNIQUE 约束，并配合触发器 check_order_insert，
+        从数据库层面保证同一商品不能重复生成订单。若冲突发生，则事务回滚。
+    </p>
+</div>
+
+<div class="panel">
+    <h3 style="color:#1565c0; margin-bottom:12px;">3. 如果系统崩溃，如何恢复订单数据</h3>
+    <p style="line-height:1.9; color:#607080;">
+        由于购买操作使用事务处理，只有当插入订单和更新商品状态都成功后才会提交；
+        如果系统中途崩溃，未提交的事务会自动回滚，因此数据库不会留下不一致数据。
+        此外，还可以通过定期备份数据库文件 campus.db 的方式进行恢复，
+        一旦系统损坏，可用最近一次备份还原订单数据。
+    </p>
+</div>
+{% endblock %}

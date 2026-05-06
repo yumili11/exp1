@@ -1,54 +1,71 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
+
+{% block title %}数据查询{% endblock %}
 
 {% block content %}
-<h2>查询展示</h2>
+<h1 class="page-title">数据查询</h1>
+<p class="page-subtitle">基本查询与连接查询结果展示</p>
 
-<h3>1. 所有未售出的商品</h3>
-<ul>
-    {% for item in unsold_items %}
-    <li>{{ item.item_id }} - {{ item.item_name }} - {{ item.price }}</li>
-    {% endfor %}
-</ul>
+<div class="panel">
+    <h3 style="color:#1565c0; margin-bottom:12px;">1. 查询所有未售出的商品</h3>
+    <ul>
+        {% for item in unsold_items %}
+        <li>{{ item['item_id'] }} - {{ item['item_name'] }} - ￥{{ item['price'] }}</li>
+        {% endfor %}
+    </ul>
+</div>
 
-<h3>2. 价格大于30的商品</h3>
-<ul>
-    {% for item in price_gt_30 %}
-    <li>{{ item.item_name }} - {{ item.price }}</li>
-    {% endfor %}
-</ul>
+<div class="panel">
+    <h3 style="color:#1565c0; margin-bottom:12px;">2. 查询价格大于 30 的商品</h3>
+    <ul>
+        {% for item in price_gt_30 %}
+        <li>{{ item['item_name'] }} - ￥{{ item['price'] }}</li>
+        {% endfor %}
+    </ul>
+</div>
 
-<h3>3. “生活用品”类商品</h3>
-<ul>
-    {% for item in daily_items %}
-    <li>{{ item.item_name }} - {{ item.category }}</li>
-    {% endfor %}
-</ul>
+<div class="panel">
+    <h3 style="color:#1565c0; margin-bottom:12px;">3. 查询“生活用品”类商品</h3>
+    <ul>
+        {% for item in daily_items %}
+        <li>{{ item['item_name'] }} - {{ item['category'] }}</li>
+        {% endfor %}
+    </ul>
+</div>
 
-<h3>4. u001发布的所有商品</h3>
-<ul>
-    {% for item in u001_items %}
-    <li>{{ item.item_name }}</li>
-    {% endfor %}
-</ul>
+<div class="panel">
+    <h3 style="color:#1565c0; margin-bottom:12px;">4. 查询 u001 发布的所有商品</h3>
+    <ul>
+        {% for item in u001_items %}
+        <li>{{ item['item_name'] }}</li>
+        {% endfor %}
+    </ul>
+</div>
 
-<h3>5. 所有已售商品及其买家姓名</h3>
-<ul>
-    {% for row in sold_with_buyer %}
-    <li>{{ row.item_name }} - {{ row.buyer_name }}</li>
-    {% endfor %}
-</ul>
+<div class="panel">
+    <h3 style="color:#1565c0; margin-bottom:12px;">5. 查询所有已售商品及其买家姓名</h3>
+    <ul>
+        {% for row in sold_with_buyer %}
+        <li>{{ row['item_name'] }} - {{ row['buyer_name'] }}</li>
+        {% endfor %}
+    </ul>
+</div>
 
-<h3>6. 每个订单：商品名 + 买家名 + 日期</h3>
-<ul>
-    {% for row in order_detail %}
-    <li>{{ row.item_name }} - {{ row.buyer_name }} - {{ row.order_date }}</li>
-    {% endfor %}
-</ul>
+<div class="panel">
+    <h3 style="color:#1565c0; margin-bottom:12px;">6. 查询每个订单：商品名 + 买家名 + 日期</h3>
+    <ul>
+        {% for row in order_detail %}
+        <li>{{ row['item_name'] }} - {{ row['buyer_name'] }} - {{ row['order_date'] }}</li>
+        {% endfor %}
+    </ul>
+</div>
 
-<h3>7. 卖家是u001的商品是否被购买</h3>
-<ul>
-    {% for row in seller_u001_purchase %}
-    <li>{{ row.item_name }} - {{ row.purchase_status }}</li>
-    {% endfor %}
-</ul>
+<div class="panel">
+    <h3 style="color:#1565c0; margin-bottom:12px;">7. 查询卖家是 u001 的商品是否被购买</h3>
+    <ul>
+        {% for row in seller_u001_purchase %}
+        <li>{{ row['item_id'] }} - {{ row['item_name'] }} - {{ row['purchase_status'] }}</li>
+        {% endfor %}
+    </ul>
+</div>
 {% endblock %}

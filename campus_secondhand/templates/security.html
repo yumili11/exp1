@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}安全说明{% endblock %}
+
+{% block content %}
+<h1 class="page-title">安全性说明</h1>
+<p class="page-subtitle">如何防止普通用户删除数据，以及如何限制普通用户只能查询数据</p>
+
+<div class="panel">
+    <h3 style="color:#1565c0; margin-bottom:12px;">1. 如何防止普通用户删除数据</h3>
+    <p style="line-height:1.9; color:#607080;">
+        系统通过角色权限控制实现。管理员账号 role = admin，普通用户账号 role = user。
+        对新增商品、修改价格、删除商品、查看用户信息等敏感操作，后端统一使用 admin_required 装饰器进行权限验证。
+        当普通用户访问这些接口时，系统会直接拦截，并提示“无权限访问该页面”，因此普通用户不能删除数据库中的数据。
+    </p>
+</div>
+
+<div class="panel">
+    <h3 style="color:#1565c0; margin-bottom:12px;">2. 如何限制用户只能查询数据</h3>
+    <p style="line-height:1.9; color:#607080;">
+        普通用户登录后，只允许访问商品浏览、数据查询、统计分析、视图展示和自己的订单记录。
+        在商品管理页面中，普通用户不会看到新增、修改价格、删除按钮，只能执行查询和购买未售出商品操作。
+        管理员才有权限执行数据维护操作，这样就实现了“普通用户只能查询数据”的限制。
+    </p>
+</div>
+{% endblock %}

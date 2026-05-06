@@ -1,24 +1,38 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
+
+{% block title %}统计分析{% endblock %}
 
 {% block content %}
-<h2>统计分析</h2>
+<h1 class="page-title">统计分析</h1>
+<p class="page-subtitle">聚合与分组查询结果</p>
 
-<p><strong>商品总数：</strong>{{ total_items }}</p>
-<p><strong>平均价格：</strong>{{ "%.2f"|format(avg_price if avg_price else 0) }}</p>
+<div class="card-grid" style="margin-bottom:24px;">
+    <div class="card">
+        <h3>商品总数</h3>
+        <p>{{ total_items }}</p>
+    </div>
 
-<h3>每类商品数量</h3>
-<ul>
-    {% for row in category_counts %}
-    <li>{{ row.category }}：{{ row.cnt }}</li>
-    {% endfor %}
-</ul>
+    <div class="card">
+        <h3>平均价格</h3>
+        <p>￥{{ "%.2f"|format(avg_price if avg_price else 0) }}</p>
+    </div>
+</div>
 
-<h3>发布商品数量最多的用户</h3>
-<p>
+<div class="panel">
+    <h3 style="color:#1565c0; margin-bottom:12px;">每类商品数量</h3>
+    <ul>
+        {% for row in category_counts %}
+        <li>{{ row['category'] }}：{{ row['cnt'] }} 件</li>
+        {% endfor %}
+    </ul>
+</div>
+
+<div class="panel">
+    <h3 style="color:#1565c0; margin-bottom:12px;">发布商品数量最多的用户</h3>
     {% if top_user %}
-        {{ top_user.username }}（{{ top_user.item_count }}件）
+        <p>{{ top_user['username'] }}（{{ top_user['item_count'] }} 件）</p>
     {% else %}
-        暂无数据
+        <p>暂无数据</p>
     {% endif %}
-</p>
+</div>
 {% endblock %}
