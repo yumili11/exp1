@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>校园二手交易平台数据库系统</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>校园二手交易平台数据库系统</h1>
+        <nav>
+            <a href="{{ url_for('index') }}">首页</a>
+            <a href="{{ url_for('users') }}">用户列表</a>
+            <a href="{{ url_for('items') }}">商品列表</a>
+            <a href="{{ url_for('orders') }}">订单列表</a>
+            <a href="{{ url_for('queries') }}">查询展示</a>
+            <a href="{{ url_for('stats') }}">统计分析</a>
+            <a href="{{ url_for('views_page') }}">视图展示</a>
+            <a href="{{ url_for('buy') }}">购买商品</a>
+        </nav>
+    </header>
+
+    <main>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, msg in messages %}
+                    <div class="alert {{ category }}">{{ msg }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

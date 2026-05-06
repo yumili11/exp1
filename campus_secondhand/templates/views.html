@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>视图展示</h2>
+
+<h3>已售商品视图（商品名 + 买家ID）</h3>
+<table>
+    <tr>
+        <th>商品名</th>
+        <th>买家ID</th>
+    </tr>
+    {% for row in sold_view %}
+    <tr>
+        <td>{{ row.item_name }}</td>
+        <td>{{ row.buyer_id }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<h3>未售商品视图</h3>
+<table>
+    <tr>
+        <th>商品ID</th>
+        <th>商品名</th>
+        <th>类别</th>
+        <th>价格</th>
+        <th>卖家ID</th>
+    </tr>
+    {% for row in unsold_view %}
+    <tr>
+        <td>{{ row.item_id }}</td>
+        <td>{{ row.item_name }}</td>
+        <td>{{ row.category }}</td>
+        <td>{{ row.price }}</td>
+        <td>{{ row.seller_id }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

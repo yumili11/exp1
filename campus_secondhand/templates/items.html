@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>商品列表</h2>
+
+<table>
+    <tr>
+        <th>商品ID</th>
+        <th>商品名</th>
+        <th>类别</th>
+        <th>价格</th>
+        <th>卖家ID</th>
+        <th>卖家姓名</th>
+        <th>状态</th>
+        <th>操作</th>
+    </tr>
+    {% for item in items %}
+    <tr>
+        <td>{{ item.item_id }}</td>
+        <td>{{ item.item_name }}</td>
+        <td>{{ item.category }}</td>
+        <td>{{ item.price }}</td>
+        <td>{{ item.seller_id }}</td>
+        <td>{{ item.seller_name }}</td>
+        <td>{{ '未售出' if item.status == 0 else '已售出' }}</td>
+        <td>
+            {% if item.status == 0 %}
+            <a href="{{ url_for('delete_item', item_id=item.item_id) }}" onclick="return confirm('确认删除该未售出商品吗？')">删除</a>
+            {% else %}
+            已售不可删
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+<h3>新增商品</h3>
+<form method="post" action="{{ url_for('add_item') }}">
+    <input type="text" name="item_id" placeholder="商品ID" required>
+    <input type="text" name="item_name" placeholder="商品名" required>
+    <input type="text" name="category" placeholder="类别" required>
+    <input type="number" step="0.01" name="price" placeholder="价格" required>
+    <input type="text" name="seller_id" placeholder="卖家ID" required>
+    <select name="status">
+        <option value="0">未售出</option>
+        <option value="1">已售出</option>
+    </select>
+    <button type="submit">添加商品</button>
+</form>
+
+<h3>修改商品价格</h3>
+<form method="post" action="{{ url_for('update_price') }}">
+    <input type="text" name="item_id" placeholder="商品ID" required>
+    <input type="number" step="0.01" name="new_price" placeholder="新价格" required>
+    <button type="submit">修改价格</button>
+</form>
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>查询展示</h2>
+
+<h3>1. 所有未售出的商品</h3>
+<ul>
+    {% for item in unsold_items %}
+    <li>{{ item.item_id }} - {{ item.item_name }} - {{ item.price }}</li>
+    {% endfor %}
+</ul>
+
+<h3>2. 价格大于30的商品</h3>
+<ul>
+    {% for item in price_gt_30 %}
+    <li>{{ item.item_name }} - {{ item.price }}</li>
+    {% endfor %}
+</ul>
+
+<h3>3. “生活用品”类商品</h3>
+<ul>
+    {% for item in daily_items %}
+    <li>{{ item.item_name }} - {{ item.category }}</li>
+    {% endfor %}
+</ul>
+
+<h3>4. u001发布的所有商品</h3>
+<ul>
+    {% for item in u001_items %}
+    <li>{{ item.item_name }}</li>
+    {% endfor %}
+</ul>
+
+<h3>5. 所有已售商品及其买家姓名</h3>
+<ul>
+    {% for row in sold_with_buyer %}
+    <li>{{ row.item_name }} - {{ row.buyer_name }}</li>
+    {% endfor %}
+</ul>
+
+<h3>6. 每个订单：商品名 + 买家名 + 日期</h3>
+<ul>
+    {% for row in order_detail %}
+    <li>{{ row.item_name }} - {{ row.buyer_name }} - {{ row.order_date }}</li>
+    {% endfor %}
+</ul>
+
+<h3>7. 卖家是u001的商品是否被购买</h3>
+<ul>
+    {% for row in seller_u001_purchase %}
+    <li>{{ row.item_name }} - {{ row.purchase_status }}</li>
+    {% endfor %}
+</ul>
+{% endblock %}

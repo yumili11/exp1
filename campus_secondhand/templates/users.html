@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>用户列表</h2>
+<table>
+    <tr>
+        <th>用户ID</th>
+        <th>用户名</th>
+        <th>性别</th>
+        <th>手机号</th>
+    </tr>
+    {% for user in users %}
+    <tr>
+        <td>{{ user.user_id }}</td>
+        <td>{{ user.username }}</td>
+        <td>{{ user.gender }}</td>
+        <td>{{ user.phone }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

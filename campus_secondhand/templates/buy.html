@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>购买商品</h2>
+
+<form method="post">
+    <label>订单ID：</label>
+    <input type="text" name="order_id" required><br><br>
+
+    <label>买家：</label>
+    <select name="buyer_id" required>
+        {% for user in users %}
+        <option value="{{ user.user_id }}">{{ user.user_id }} - {{ user.username }}</option>
+        {% endfor %}
+    </select><br><br>
+
+    <label>商品：</label>
+    <select name="item_id" required>
+        {% for item in items %}
+        <option value="{{ item.item_id }}">{{ item.item_id }} - {{ item.item_name }} - {{ item.price }}元</option>
+        {% endfor %}
+    </select><br><br>
+
+    <label>下单日期：</label>
+    <input type="date" name="order_date" value="{{ today }}" required><br><br>
+
+    <button type="submit">确认购买</button>
+</form>
+{% endblock %}
