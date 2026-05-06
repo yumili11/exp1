@@ -45,20 +45,19 @@ CREATE TABLE orders (
 )
 """)
 
-# 触发器：插入订单时，商品必须是未售出状态
+# 触发器：插入订单后自动更新商品为已售出
 cursor.execute("""
-CREATE TRIGGER check_order_insert
-BEFORE INSERT ON orders
+CREATE TRIGGER update_item_status_after_order
+AFTER INSERT ON orders
 FOR EACH ROW
 BEGIN
-    SELECT CASE
-        WHEN (SELECT status FROM item WHERE item_id = NEW.item_id) != 0
-        THEN RAISE(ABORT, '商品已售出，不能重复购买')
-    END;
+    UPDATE item
+    SET status = 1
+    WHERE item_id = NEW.item_id;
 END;
 """)
 
-# 插入用户
+# 插入初始用户数据
 users = [
     ("u001", "张三", "男", "13800000001"),
     ("u002", "李四", "女", "13800000002"),
@@ -67,8 +66,7 @@ users = [
 ]
 cursor.executemany("INSERT INTO user VALUES (?, ?, ?, ?)", users)
 
-# 插入商品
-# 注意：先全部设为未售出(0)
+# 注意：这里把有订单的商品初始状态先设为0
 items = [
     ("i001", "高等数学教材", "学习用品", 25.0, "u001", 0),
     ("i002", "电风扇", "生活用品", 45.0, "u002", 0),
@@ -78,18 +76,14 @@ items = [
 ]
 cursor.executemany("INSERT INTO item VALUES (?, ?, ?, ?, ?, ?)", items)
 
-# 插入订单
+# 插入订单后，触发器会把 i002 和 i004 自动改成已售出
 orders = [
     ("o001", "u003", "i002", "2025-04-10"),
     ("o002", "u002", "i004", "2025-04-11")
 ]
 cursor.executemany("INSERT INTO orders VALUES (?, ?, ?, ?)", orders)
 
-# 根据订单更新商品状态为已售出
-cursor.execute("UPDATE item SET status = 1 WHERE item_id = 'i002'")
-cursor.execute("UPDATE item SET status = 1 WHERE item_id = 'i004'")
-
-# 创建视图1：已售商品视图
+# 创建视图
 cursor.execute("""
 CREATE VIEW sold_items_view AS
 SELECT item.item_name, orders.buyer_id
@@ -98,7 +92,6 @@ JOIN orders ON item.item_id = orders.item_id
 WHERE item.status = 1
 """)
 
-# 创建视图2：未售商品视图
 cursor.execute("""
 CREATE VIEW unsold_items_view AS
 SELECT *
